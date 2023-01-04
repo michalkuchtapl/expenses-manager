@@ -6,7 +6,6 @@ import ApplicationMark from '@/Components/ApplicationMark.vue';
 import Banner from '@/Components/Banner.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 
 defineProps({
@@ -14,14 +13,6 @@ defineProps({
 });
 
 const showingNavigationDropdown = ref(false);
-
-const switchToTeam = (team) => {
-    Inertia.put(route('current-team.update'), {
-        team_id: team.id,
-    }, {
-        preserveState: false,
-    });
-};
 
 const logout = () => {
     Inertia.post(route('logout'));
@@ -144,7 +135,11 @@ const logout = () => {
 
             <!-- Page Content -->
             <main>
-                <slot />
+                <div class="py-6">
+                    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                        <slot />
+                    </div>
+                </div>
             </main>
         </div>
     </div>

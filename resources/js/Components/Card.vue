@@ -22,7 +22,6 @@
             </div>
         </div>
 
-
         <slot />
     </div>
 </template>
