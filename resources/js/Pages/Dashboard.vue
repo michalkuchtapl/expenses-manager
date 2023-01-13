@@ -1,12 +1,11 @@
 <script setup>
 
-
-import {computed} from "vue";
-
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Card from "@/Components/Card.vue";
 import IncomeExpanseChart from "@/Components/IncomeExpanseChart.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import AddIncomeModal from "@/Components/Modals/AddIncomeModal.vue";
+import AddExpenseModal from "@/Components/Modals/AddExpenseModal.vue";
 
 const props = defineProps({
     upcomingExpanses: {
@@ -19,7 +18,7 @@ const props = defineProps({
                 date: "2023-01-3"
             },
             {
-                danger: false,
+                danger: true,
                 title: "Credit 1",
                 amount: 250.0,
                 date: "2023-01-14"
@@ -31,7 +30,7 @@ const props = defineProps({
                 date: "2023-01-14"
             },
             {
-                danger: true,
+                danger: false,
                 title: "Something dangerous",
                 amount: 1900.0,
                 date: "2023-01-14"
@@ -39,7 +38,6 @@ const props = defineProps({
         ]
     }
 })
-
 </script>
 
 <template>
@@ -47,9 +45,7 @@ const props = defineProps({
         <div class="md:flex md:flex-row pt-5 md:gap-x-5">
             <Card class="md:basis-1/3" title="Net Income">
                 <template #action>
-                    <button class="bg-green-500 text-black px-3 py-1 mb-1 rounded-lg" title="Add Income">
-                        +
-                    </button>
+                    <AddIncomeModal />
                 </template>
 
                 <div class="text-2xl font-bold">
@@ -59,9 +55,7 @@ const props = defineProps({
 
             <Card class="md:basis-1/3 mt-5 md:mt-0" title="Total Expenses">
                 <template #action>
-                    <button class="bg-green-500 text-black px-3 py-1 mb-1 rounded-lg" title="Add Expense">
-                        +
-                    </button>
+                    <AddExpenseModal />
                 </template>
 
                 <div class="text-2xl font-bold">
@@ -83,13 +77,13 @@ const props = defineProps({
                 </div>
                 <div
                     v-else
-                    class="px-4 py-5 sm:px-6"
+                    class="px-4 py-5 sm:px-6 border-b-ros"
                     v-for="(upcomingExpanse, index) in upcomingExpanses"
                     :key="index"
                     :class="{
-                        'bg-gray-50': !upcomingExpanse.danger && index % 2 === 1,
-                        'bg-white': !upcomingExpanse.danger && index % 2 === 0,
-                        'bg-rose-200': upcomingExpanse.danger,
+                        'border-b-gray-200 border-b-2': index < (upcomingExpanses.length-1) && !upcomingExpanse.danger,
+                        'border-b-rose-300 border-b-2': index < (upcomingExpanses.length-1) && upcomingExpanse.danger,
+                        'bg-rose-100': upcomingExpanse.danger,
                     }"
                 >
                     <div class="flex">
