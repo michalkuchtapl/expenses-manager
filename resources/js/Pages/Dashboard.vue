@@ -8,6 +8,16 @@ import AddIncomeModal from "@/Components/Modals/AddIncomeModal.vue";
 import AddExpenseModal from "@/Components/Modals/AddExpenseModal.vue";
 
 const props = defineProps({
+    totalIncome: {
+        type: Number,
+        default: 0
+    },
+
+    totalExpense: {
+        type: Number,
+        default: 0
+    },
+
     upcomingExpanses: {
         type: Array,
         default: [
@@ -49,7 +59,7 @@ const props = defineProps({
                 </template>
 
                 <div class="text-2xl font-bold">
-                    0 zł
+                    {{ totalIncome }} zł
                 </div>
             </Card>
 
@@ -59,13 +69,13 @@ const props = defineProps({
                 </template>
 
                 <div class="text-2xl font-bold">
-                    0 zł
+                    {{ totalExpense }} zł
                 </div>
             </Card>
 
             <Card class="md:basis-1/3 mt-5 md:mt-0" title="Gross Income">
                 <div class="text-2xl font-bold">
-                    0 zł
+                    {{ totalIncome - totalExpense }} zł
                 </div>
             </Card>
         </div>

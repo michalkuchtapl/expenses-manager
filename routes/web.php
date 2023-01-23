@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\IncomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,4 +22,12 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::prefix('/income')->group(function () {
+        Route::post('/', [IncomeController::class, 'store'])->name('income.store');
+    });
+
+    Route::prefix('/expense')->group(function () {
+        Route::post('/', [ExpenseController::class, 'store'])->name('expense.store');
+    });
 });

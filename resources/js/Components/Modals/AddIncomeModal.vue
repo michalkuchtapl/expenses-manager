@@ -1,13 +1,16 @@
 <script setup>
 import {Button, Input, Modal} from 'flowbite-vue'
 import { ref } from 'vue'
+import {useForm} from "@inertiajs/inertia-vue3";
 
 defineProps({
 
 });
-
+const isLoading = ref(false);
 const isShowModal = ref(false)
 function save() {
+    isLoading.value = true;
+    form.post(route('income.store'));
     isShowModal.value = false
 }
 function closeModal() {
@@ -17,10 +20,10 @@ function showModal() {
     isShowModal.value = true
 }
 
-const form = {
+const form = useForm({
     name: '',
     value: ''
-};
+});
 
 </script>
 
