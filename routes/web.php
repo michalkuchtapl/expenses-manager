@@ -17,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
+    'auth:mah',
 ])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
