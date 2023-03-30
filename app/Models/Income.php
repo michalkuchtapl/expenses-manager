@@ -42,4 +42,17 @@ class Income extends Model
             ->whereMonth('created_at', $month)
             ->sum('value');
     }
+
+    public static function getStatisticsForYear(?int $year = null)
+    {
+        return self::query()
+            ->select([
+                \DB::raw('SUM(value) as value'),
+                \DB::raw('MONTH(created_at) as month'),
+            ])
+            ->where('user_id', auth()->id())
+            ->whereYear('created_at', $year ?? Carbon::now()->year)
+            ->groupBy([\DB::raw('MONTH(created_at)')])
+            ->pluck('value', 'month');
+    }
 }

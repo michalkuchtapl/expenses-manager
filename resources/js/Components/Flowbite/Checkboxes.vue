@@ -22,7 +22,6 @@ const changeState = (value) => {
     } else {
         tempValues.push(value);
     }
-    console.log(tempValues);
     emit('update:modelValue', tempValues);
 }
 

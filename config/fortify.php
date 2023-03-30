@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'guard' => 'mah',
+    'guard' => 'web',
 
     /*
     |--------------------------------------------------------------------------
@@ -133,5 +133,10 @@ return [
 
     'features' => [
         Features::registration(),
+        Features::emailVerification(),
+        Features::resetPasswords(),
+        Features::twoFactorAuthentication(),
+        Features::updatePasswords(),
+        Features::updateProfileInformation(),
     ],
 ];

@@ -5,6 +5,7 @@ import Select from "@/Components/Flowbite/Select.vue";
 import Checkboxes from "@/Components/Flowbite/Checkboxes.vue";
 import {useForm} from "@inertiajs/inertia-vue3";
 import { Inertia } from '@inertiajs/inertia'
+import DatePicker from "@/Components/Flowbite/DatePicker.vue";
 
 const isLoading = ref(false);
 const isShowModal = ref(false);
@@ -14,10 +15,9 @@ const form = useForm({
     name: '',
     value: 0,
     type: 'one_time',
-    day: 1,
-    month: 1,
     months: [],
-    repetitions: 1,
+    start_date: null,
+    end_date: null,
 });
 
 const expenseTypes = [
@@ -42,19 +42,13 @@ const months = [
     {value: '12', label: 'December'},
 ];
 
-const days = computed(() => {
-    const arr = [];
-    for(let day = 1; day <= 31; day++) {
-        arr.push({
-            value: day,
-            label: day
-        })
-    }
-    return arr;
-})
 
 function save() {
     isLoading.value = true;
+
+    if (form.type == 'one_time')
+        form.end_date = form.start_date;
+
     axios.post(route('expense.store'), form.data())
         .then((response) => {
             form.reset();
@@ -100,13 +94,10 @@ function showModal() {
             <Input label="Name" v-model="form.name" class="mb-2" required />
             <Input label="Value" v-model="form.value" type="number" class="mb-2" required min="1" />
             <Select :options="expenseTypes" label="Expense Type" v-model="form.type" class="mb-2" required />
+            <Checkboxes v-if="form.type == 'selected_months'" label="Months" :options="months" v-model="form.months" class="mb-2" required />
 
-            <div v-if="form.type != 'one_time'">
-                <Checkboxes v-if="form.type == 'selected_months'" label="Months" :options="months" v-model="form.months" class="mb-2" required />
-                <Select v-if="form.type == 'yearly'" :options="months" label="Month" v-model="form.month" class="mb-2" required />
-                <Select :options="days" label="Day" v-model="form.day" class="mb-2" required />
-                <Input label="Number of Repetitions" v-model="form.repetitions" type="number" class="mb-2" required min="1" />
-            </div>
+            <DatePicker label="Start at" v-model="form.start_date" />
+            <DatePicker v-if="form.type != 'one_time'" label="Finish at" v-model="form.end_date" />
         </template>
         <template #footer>
             <div class="flex justify-between">

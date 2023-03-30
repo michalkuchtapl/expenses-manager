@@ -17,9 +17,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware([
-    'auth:mah',
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
 ])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/statistics', [DashboardController::class, 'getStatistics'])->name('statistics');
 
     Route::prefix('/income')->group(function () {
         Route::post('/', [IncomeController::class, 'store'])->name('income.store');
@@ -27,5 +30,6 @@ Route::middleware([
 
     Route::prefix('/expense')->group(function () {
         Route::post('/', [ExpenseController::class, 'store'])->name('expense.store');
+        Route::put('/{expense_payment}/paid', [ExpenseController::class, 'markPaid'])->name('expense.mark-paid');
     });
 });
