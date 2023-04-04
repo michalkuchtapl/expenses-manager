@@ -39,8 +39,8 @@ class ExpensePayment extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $dates = [
-        'due_date',
+    protected $casts = [
+        'due_date' => 'datetime',
     ];
 
     public function expense()

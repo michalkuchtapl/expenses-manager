@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ExpenseType;
-use App\Http\Requests\Income\StoreExpenseRequest;
+use App\Http\Requests\Expenses\StoreExpenseRequest;
 use App\Models\Expense;
 use App\Models\ExpensePayment;
 use Inertia\Inertia;
 
 class ExpenseController extends Controller
 {
-    public function index()
+    public function list()
     {
-        return Inertia::render('Expense/Index');
+        return Inertia::render('Expense/List');
     }
 
     public function store(StoreExpenseRequest $request)

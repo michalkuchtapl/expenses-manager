@@ -1,11 +1,13 @@
 <script setup>
-import {Alert, Button, Input, Modal} from 'flowbite-vue'
-import {computed, reactive, ref, watchEffect} from 'vue'
-import Select from "@/Components/Flowbite/Select.vue";
-import Checkboxes from "@/Components/Flowbite/Checkboxes.vue";
-import {useForm} from "@inertiajs/inertia-vue3";
-import { Inertia } from '@inertiajs/inertia'
-import DatePicker from "@/Components/Flowbite/DatePicker.vue";
+import {ref} from 'vue'
+import {useForm, router} from "@inertiajs/vue3";
+import InputNumber from "primevue/inputnumber";
+import InputText from "primevue/inputtext";
+import Calendar from "primevue/calendar";
+import SelectButton from "primevue/selectbutton";
+import Button from "primevue/button";
+import Dialog from "primevue/dialog";
+import MultiSelect from "primevue/multiselect";
 
 const isLoading = ref(false);
 const isShowModal = ref(false);
@@ -54,7 +56,7 @@ function save() {
             form.reset();
             isShowModal.value = false
             isLoading.value = false;
-            Inertia.visit(route('dashboard'), {
+            router.visit(route('dashboard'), {
                 only: ['totalExpense']
             })
         })
@@ -77,33 +79,54 @@ function showModal() {
 </script>
 
 <template>
-    <button @click="showModal" class="bg-green-500 text-black px-3 py-1 mb-1 rounded-lg" title="Add Expense">
-        +
-    </button>
-    <Modal size="xl" v-if="isShowModal" @close="closeModal">
-        <template #header>
-            <div class="flex items-center text-lg">
-                Add new expense for current month
-            </div>
-        </template>
-        <template #body>
-            <Alert v-if="errorMessage && errorMessage.length > 0" type="danger" class="mb-2">
-                {{ errorMessage }}
-            </Alert>
+    <Button
+        severity="success"
+        size="small"
+        class="p-button-sm absolute"
+        @click="showModal"
+        icon="pi pi-plus"
+        aria-label="Add Expense"
+        style="top: 7px; right: 10px"
+    />
+    <Dialog v-model:visible="isShowModal" class="md:w-10 lg:w-3 w-full" :style="{ width: '50vw' }" modal header="Add new expense for current month">
+        <div class="mb-2">
+            <label class="font-bold block mb-2">Name</label>
+            <InputText v-model="form.name" class="w-full" />
+        </div>
+        <div class="mb-2">
+            <label class="font-bold block mb-2">Value</label>
+            <InputNumber v-model="form.value" prefix="PLN " class="w-full" />
+        </div>
+        <div class="mb-2">
+            <label class="font-bold block mb-2">Expense Type</label>
+            <SelectButton v-model="form.type" :options="expenseTypes" optionLabel="label" optionValue="value" />
+        </div>
+        <div class="mb-2">
+            <label class="font-bold block mb-2">Months</label>
+            <MultiSelect
+                v-model="form.months"
+                :options="months"
+                display="chip"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select Months"
+                class="w-full"
+            />
+        </div>
+        <div class="mb-2">
+            <label class="font-bold block mb-2">Start at</label>
+            <Calendar v-model="form.start_date" showIcon class="w-full"  />
+        </div>
+        <div class="mb-2"  v-if="form.type != 'one_time'">
+            <label class="font-bold block mb-2">Finish at</label>
+            <Calendar v-model="form.end_date" showIcon class="w-full"  />
+        </div>
 
-            <Input label="Name" v-model="form.name" class="mb-2" required />
-            <Input label="Value" v-model="form.value" type="number" class="mb-2" required min="1" />
-            <Select :options="expenseTypes" label="Expense Type" v-model="form.type" class="mb-2" required />
-            <Checkboxes v-if="form.type == 'selected_months'" label="Months" :options="months" v-model="form.months" class="mb-2" required />
-
-            <DatePicker label="Start at" v-model="form.start_date" />
-            <DatePicker v-if="form.type != 'one_time'" label="Finish at" v-model="form.end_date" />
-        </template>
         <template #footer>
-            <div class="flex justify-between">
-                <Button :loading="isLoading" color="red" @click="closeModal">Close</Button>
-                <Button :loading="isLoading" color="green" @click="save">Save</Button>
+            <div class="flex justify-content-between">
+                <Button severity="danger" :loading="isLoading" @click="closeModal" label="Close" />
+                <Button severity="success" :loading="isLoading" @click="save" label="Save" />
             </div>
         </template>
-    </Modal>
+    </Dialog>
 </template>

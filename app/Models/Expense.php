@@ -66,10 +66,7 @@ class Expense extends Model
     protected $casts = [
         'type' => ExpenseType::class,
         'months' => 'array',
-    ];
-
-    protected $dates = [
-        'start_date',
+        'start_date' => 'datetime',
     ];
 
     public function user()

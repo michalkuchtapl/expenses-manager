@@ -2,15 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Income\ListIncomeRequest;
 use App\Http\Requests\Income\StoreIncomeRequest;
+use App\Http\Resources\IncomeResource;
 use App\Models\Income;
 use Inertia\Inertia;
 
 class IncomeController extends Controller
 {
-    public function index()
+    public function list(ListIncomeRequest $request)
     {
-        return Inertia::render('Income/Index');
+        $incomes = Income::query()
+            ->whereUserId(auth()->id())
+            ->orderBy($request->get('sortField', 'created_at'), $request->get('sortOrder', 'asc'))
+            ->paginate(
+                perPage: $request->get('perPage'),
+                page: $request->get('page'),
+            );
+
+        return Inertia::render('Income/List', [
+            'incomes' => IncomeResource::collection($incomes->items()),
+            'pageInfo' => [
+                "first" => $incomes->firstItem(),
+                "perPage" => $incomes->perPage(),
+                "sortField" => $request->get('sortField', 'created_at'),
+                "sortOrder" => $request->get('sortOrder', 'asc'),
+                'total' => $incomes->total()
+            ]
+        ]);
     }
 
     public function store(StoreIncomeRequest $request)

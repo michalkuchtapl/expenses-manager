@@ -1,9 +1,7 @@
 <script setup>
 import { ref } from 'vue';
-import { Inertia } from '@inertiajs/inertia';
-import { Head, Link } from '@inertiajs/inertia-vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import ApplicationMark from '@/Components/ApplicationMark.vue';
-import Banner from '@/Components/Banner.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
@@ -15,7 +13,7 @@ defineProps({
 const showingNavigationDropdown = ref(false);
 
 const logout = () => {
-    Inertia.post(route('logout'));
+    router.post(route('logout'));
 };
 </script>
 
@@ -23,29 +21,37 @@ const logout = () => {
     <div>
         <Head :title="title" />
 
-        <Banner />
-
         <div class="min-h-screen bg-gray-100">
-            <nav class="bg-white border-b border-gray-100 shadow">
+            <nav class="bg-white border-bottom-1 border-gray-100 shadow-2">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between h-16">
+                <div class="max-w-80rem mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-content-between h-16rem">
                         <div class="flex">
                             <!-- Logo -->
-                            <div class="shrink-0 flex items-center">
+                            <div class="flex-shrink-0 flex align-items-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationMark class="block h-9 w-auto" />
+                                    <ApplicationMark class="block h-9rem w-auto" />
                                 </Link>
                             </div>
                         </div>
 
-                        <div class="hidden sm:flex sm:items-center sm:ml-6">
+                        <div class="hidden sm:flex sm:align-items-center sm:ml-6">
+                            <div class="ml-3 relative">
+                                <Link :href="route('income.list')" :active="route().current('income')">
+                                    Incomes
+                                </Link>
+                            </div>
+                            <div class="ml-3 relative">
+                                <Link :href="route('expense.list')" :active="route().current('expense')">
+                                    Expenses
+                                </Link>
+                            </div>
                             <!-- Settings Dropdown -->
                             <div class="ml-3 relative">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
+                                        <span class="inline-flex border-round-md">
+                                            <button type="button" class="inline-flex align-items-center px-3 py-2 border-1 border-transparent text-sm font-medium border-round-md text-gray-500 bg-white hover:text-gray-700 focus:bg-gray-50 active:bg-gray-50 transition-all">
                                                 {{ $page.props.user.name }}
 
                                                 <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -65,7 +71,7 @@ const logout = () => {
                                             Profile
                                         </DropdownLink>
 
-                                        <div class="border-t border-gray-100" />
+                                        <div class="border-top-1 border-gray-100" />
 
                                         <!-- Authentication -->
                                         <form @submit.prevent="logout">
@@ -79,10 +85,10 @@ const logout = () => {
                         </div>
 
                         <!-- Hamburger -->
-                        <div class="-mr-2 flex items-center sm:hidden">
-                            <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition" @click="showingNavigationDropdown = ! showingNavigationDropdown">
+                        <div class="-mr-2 flex align-items-center sm:hidden">
+                            <button class="inline-flex align-items-center justify-content-center p-2 border-round-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:bg-gray-100 focus:text-gray-500 transition-all" @click="showingNavigationDropdown = ! showingNavigationDropdown">
                                 <svg
-                                    class="h-6 w-6"
+                                    class="h-6rem w-6rem"
                                     stroke="currentColor"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -109,15 +115,21 @@ const logout = () => {
 
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
-                    <div class="pt-2 pb-3 space-y-1">
+                    <div class="pt-2 pb-3">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('income.list')" :active="route().current('income')">
+                            Incomes
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('expense.list')" :active="route().current('expense')">
+                            Expenses
                         </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
-                    <div class="pt-4 pb-1 border-t border-gray-200">
-                        <div class="mt-3 space-y-1">
+                    <div class="pt-4 pb-1 border-top-1 border-gray-200">
+                        <div class="mt-3">
                             <ResponsiveNavLink :href="route('profile.show')" :active="route().current('profile.show')">
                                 Profile
                             </ResponsiveNavLink>
@@ -136,7 +148,7 @@ const logout = () => {
             <!-- Page Content -->
             <main>
                 <div class="py-6">
-                    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                    <div class="max-w-80rem mx-auto px-6 lg:px-8">
                         <slot />
                     </div>
                 </div>

@@ -1,7 +1,10 @@
 <script setup>
-import {Button, Input, Modal} from 'flowbite-vue'
-import { ref } from 'vue'
-import {useForm} from "@inertiajs/inertia-vue3";
+import Button from 'primevue/button';
+import Dialog from 'primevue/dialog';
+import InputText from 'primevue/inputtext';
+import InputNumber from 'primevue/inputnumber';
+import { ref } from 'vue';
+import {useForm} from "@inertiajs/vue3";
 
 defineProps({
 
@@ -28,24 +31,29 @@ const form = useForm({
 </script>
 
 <template>
-    <button @click="showModal" class="bg-green-500 text-black px-3 py-1 mb-1 rounded-lg" title="Add Income">
-        +
-    </button>
-    <Modal size="xl" v-if="isShowModal" @close="closeModal">
-        <template #header>
-            <div class="flex items-center text-lg">
-                Add new income for current month
-            </div>
-        </template>
-        <template #body>
-            <Input label="Name" v-model="form.name" />
-            <Input label="Value" v-model="form.value" type="number" />
-        </template>
+    <Button
+        severity="success"
+        size="small"
+        class="p-button-sm absolute"
+        @click="showModal"
+        icon="pi pi-plus"
+        aria-label="Add Income"
+        style="top: 7px; right: 10px"
+    />
+    <Dialog v-model:visible="isShowModal" class="md:w-10 lg:w-3 w-full" :style="{ width: '50vw' }" modal header="Add new income for current month">
+        <div class="mb-2">
+            <label class="font-bold block mb-2">Name</label>
+            <InputText v-model="form.name" class="w-full" />
+        </div>
+        <div class="mb-2">
+            <label class="font-bold block mb-2">Value</label>
+            <InputNumber v-model="form.value" prefix="PLN " class="w-full" />
+        </div>
         <template #footer>
-            <div class="flex justify-between">
-                <Button color="red" @click="closeModal">Close</Button>
-                <Button color="green" @click="save">Save</Button>
+            <div class="flex justify-content-between">
+                <Button severity="danger" :loading="isLoading" @click="closeModal" label="Close" />
+                <Button severity="success" :loading="isLoading" @click="save" label="Save" />
             </div>
         </template>
-    </Modal>
+    </Dialog>
 </template>

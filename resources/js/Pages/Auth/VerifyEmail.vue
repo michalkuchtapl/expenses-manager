@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
 import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import Button from 'primevue/button';
 
 const props = defineProps({
     status: String,
@@ -35,15 +35,15 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
         </div>
 
         <form @submit.prevent="submit">
-            <div class="mt-4 flex items-center justify-between">
-                <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <div class="mt-4 flex align-items-center justify-content-between">
+                <Button :loading="form.processing">
                     Resend Verification Email
-                </PrimaryButton>
+                </Button>
 
                 <div>
                     <Link
                         :href="route('profile.show')"
-                        class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+                        class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 border-round-md"
                     >
                         Edit Profile</Link>
 
@@ -51,7 +51,7 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
                         :href="route('logout')"
                         method="post"
                         as="button"
-                        class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 ml-2"
+                        class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 border-round-md ml-2"
                     >
                         Log Out
                     </Link>

@@ -1,0 +1,46 @@
+body {
+    font-family: var(--font-family);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #f3f4f6;
+}
+
+.p-panel-content-no-padding .p-panel-content {
+    padding: 0;
+}
+
+.max-w-80rem {
+    max-width: 80rem;
+}
+
+@media screen and (min-width: 576px) {
+    .sm\:max-w-32rem {
+        max-width: 32rem !important;
+    }
+    .sm\:max-w-36rem {
+        max-width: 36rem !important;
+    }
+    .sm\:max-w-42rem {
+        max-width: 42rem !important;
+    }
+}
+.inset-0 {
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+
+.z-40 {
+    z-index: 40;
+}
+.z-50 {
+    z-index: 50;
+}
+
+.scale-95 {
+    transform: scale(.95);
+}
+.scale-100 {
+    transform: scale(1);
+}

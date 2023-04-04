@@ -5,8 +5,8 @@ import AuthenticationCard from '@/Components/AuthenticationCard.vue';
 import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
 
 const recovery = ref(false);
 
@@ -58,7 +58,7 @@ const submit = () => {
         <form @submit.prevent="submit">
             <div v-if="! recovery">
                 <InputLabel for="code" value="Code" />
-                <TextInput
+                <InputText
                     id="code"
                     ref="codeInput"
                     v-model="form.code"
@@ -73,7 +73,7 @@ const submit = () => {
 
             <div v-else>
                 <InputLabel for="recovery_code" value="Recovery Code" />
-                <TextInput
+                <InputText
                     id="recovery_code"
                     ref="recoveryCodeInput"
                     v-model="form.recovery_code"
@@ -84,7 +84,7 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.recovery_code" />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex align-items-center justify-content-end mt-4">
                 <button type="button" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 underline cursor-pointer" @click.prevent="toggleRecovery">
                     <template v-if="! recovery">
                         Use a recovery code
@@ -95,9 +95,9 @@ const submit = () => {
                     </template>
                 </button>
 
-                <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <Button class="ml-4" :loading="form.processing">
                     Log in
-                </PrimaryButton>
+                </Button>
             </div>
         </form>
     </AuthenticationCard>
