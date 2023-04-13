@@ -13,11 +13,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $expense_id
- * @property string $due_date
+ * @property \Illuminate\Support\Carbon $due_date
  * @property float $value
  * @property int $paid
  * @property \Illuminate\Support\Carbon|null $deleted_at
- *
+ * @property-read \App\Models\Expense $expense
  * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment onlyTrashed()
@@ -32,7 +32,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment whereValue($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class ExpensePayment extends Model

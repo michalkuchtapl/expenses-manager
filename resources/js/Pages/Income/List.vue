@@ -70,8 +70,10 @@ const onRowEditSave = function (event) {
     <AppLayout title="Incomes">
         <Card>
             <template #title>
-                Incomes
-                <AddIncomeModal />
+                <div class="relative">
+                    Incomes
+                    <AddIncomeModal />
+                </div>
             </template>
             <template #content>
                 <DataTable

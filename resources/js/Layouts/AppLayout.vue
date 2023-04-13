@@ -1,14 +1,19 @@
 <script setup>
-import { ref } from 'vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import {computed, ref} from 'vue';
+import {Head, Link, router, usePage} from '@inertiajs/vue3';
 import ApplicationMark from '@/Components/ApplicationMark.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import FlashErrors from "@/Components/FlashErrors.vue";
+
+const page = usePage();
 
 defineProps({
     title: String,
 });
+
+// console.log(page.props.flash_notification);
 
 const showingNavigationDropdown = ref(false);
 
@@ -25,12 +30,12 @@ const logout = () => {
             <nav class="bg-white border-bottom-1 border-gray-100 shadow-2">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-80rem mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-content-between h-16rem">
+                    <div class="flex justify-content-between h-5rem">
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex-shrink-0 flex align-items-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationMark class="block h-9rem w-auto" />
+                                    <ApplicationMark class="block w-auto" />
                                 </Link>
                             </div>
                         </div>
@@ -54,7 +59,7 @@ const logout = () => {
                                             <button type="button" class="inline-flex align-items-center px-3 py-2 border-1 border-transparent text-sm font-medium border-round-md text-gray-500 bg-white hover:text-gray-700 focus:bg-gray-50 active:bg-gray-50 transition-all">
                                                 {{ $page.props.user.name }}
 
-                                                <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                <svg class="ml-2 -mr-0.5 h-2rem w-2rem" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                                 </svg>
                                             </button>
@@ -147,8 +152,10 @@ const logout = () => {
 
             <!-- Page Content -->
             <main>
-                <div class="py-6">
+                <div class="py-3">
                     <div class="max-w-80rem mx-auto px-6 lg:px-8">
+                        <FlashErrors :messages="usePage().props.flash_notification" />
+
                         <slot />
                     </div>
                 </div>

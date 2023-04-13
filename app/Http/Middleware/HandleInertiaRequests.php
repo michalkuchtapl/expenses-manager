@@ -2,8 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\ExpenseCategory;
+use App\Enums\ExpensePaymentType;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Laracasts\Flash\Message;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -33,7 +37,19 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $flashNotification = session('flash_notification', collect())
+            ->map(function (Message $message) {
+                $message->timestamp = Carbon::now()->timestamp;
+                return $message;
+            })
+            ->toArray();
+
         return array_merge(parent::share($request), [
+            'flash_notification' => $flashNotification,
+            'expenses' => [
+                'payment_types' => ExpensePaymentType::options(),
+                'categories' => ExpenseCategory::options()
+            ]
         ]);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ExpenseCategory;
+use App\Enums\ExpensePaymentType;
 use App\Enums\ExpenseType;
 use App\Http\Requests\Expenses\StoreExpenseRequest;
 use App\Models\Expense;
@@ -24,6 +26,8 @@ class ExpenseController extends Controller
         $expense->value = $request->float('value');
         $expense->start_date = $request->date('start_date');
         $expense->end_date = $request->date('end_date');
+        $expense->category = ExpenseCategory::from($request->string('category'));
+        $expense->payment_type = ExpensePaymentType::from($request->string('payment_type'));
 
         if ($expense->type == ExpenseType::ONE_TIME) {
             $expense->months = [];
@@ -40,15 +44,17 @@ class ExpenseController extends Controller
         }
         $expense->save();
 
-        return response()->json([
-            'expense' => $expense,
-        ]);
+        flash()->success('Expense has been created');
+
+        return redirect()->back();
     }
 
     public function markPaid(ExpensePayment $expensePayment)
     {
         $expensePayment->paid = true;
         $expensePayment->save();
+
+        flash()->success('Expense has been marked as paid');
 
         return redirect()->back();
     }

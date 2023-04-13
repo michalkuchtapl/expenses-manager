@@ -28,13 +28,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $start_date
  * @property string|null $end_date
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property string $payment_type
+ * @property string $category
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ExpensePayment> $payments
  * @property-read int|null $payments_count
- *
+ * @property-read \App\Models\User $user
  * @method static Builder|Expense newModelQuery()
  * @method static Builder|Expense newQuery()
  * @method static Builder|Expense onlyTrashed()
  * @method static Builder|Expense query()
+ * @method static Builder|Expense whereCategory($value)
  * @method static Builder|Expense whereCreatedAt($value)
  * @method static Builder|Expense whereDay($value)
  * @method static Builder|Expense whereDeletedAt($value)
@@ -43,6 +46,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static Builder|Expense whereMonth($value)
  * @method static Builder|Expense whereMonths($value)
  * @method static Builder|Expense whereName($value)
+ * @method static Builder|Expense wherePaymentType($value)
  * @method static Builder|Expense whereStartDate($value)
  * @method static Builder|Expense whereType($value)
  * @method static Builder|Expense whereUpdatedAt($value)
@@ -50,7 +54,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static Builder|Expense whereValue($value)
  * @method static Builder|Expense withTrashed()
  * @method static Builder|Expense withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class Expense extends Model

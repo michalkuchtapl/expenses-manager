@@ -6,6 +6,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import withUUID from "vue-uuid";
 import PrimeVue from 'primevue/config';
+import ToastService from 'primevue/toastservice';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -26,6 +27,7 @@ createInertiaApp({
             createApp({ render: () => h(App, props) })
                 .use(plugin)
                 .use(PrimeVue)
+                .use(ToastService)
                 .use(ZiggyVue, Ziggy)
                 .mount(el)
         );

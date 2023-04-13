@@ -40,6 +40,8 @@ class IncomeController extends Controller
         $income->value = $request->float('value');
         $income->save();
 
+        flash()->success('Income has been created');
+
         return Inertia::location(route('dashboard'));
     }
 }

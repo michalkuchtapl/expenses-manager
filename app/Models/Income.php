@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $user_id
  * @property string $name
  * @property float $value
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Income newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Income newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Income query()
@@ -25,7 +24,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Income whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Income whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Income whereValue($value)
- *
  * @mixin \Eloquent
  */
 class Income extends Model

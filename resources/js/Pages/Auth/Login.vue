@@ -90,6 +90,16 @@ const submit = () => {
                     Log in
                 </Button>
             </div>
+
+            <div class="flex align-items-center justify-content-center mt-4">
+                <a :href="route('auth.redirect', ['google'])">
+                    <Button label="Google" severity="secondary" icon="pi pi-google" link />
+                </a>
+
+                <a :href="route('auth.redirect', ['facebook'])" class="ml-4">
+                    <Button label="Facebook" severity="secondary" icon="pi pi-facebook" link />
+                </a>
+            </div>
         </form>
     </AuthenticationCard>
 </template>

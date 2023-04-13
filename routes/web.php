@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\IncomeController;
@@ -15,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::middleware(['guest'])->group(function () {
+    Route::get('/auth/redirect/{driver}', [AuthController::class, 'redirect'])->name('auth.redirect');
+    Route::get('/auth/callback/{driver}', [AuthController::class, 'callback'])->name('auth.callback');
+});
 
 Route::middleware([
     'auth:sanctum',
