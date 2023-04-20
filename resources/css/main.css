@@ -45,3 +45,16 @@ body {
 .scale-100 {
     transform: scale(1);
 }
+
+@media screen and (min-width: 992px) {
+    .lg\:w-half-screen {
+        width: 50vh !important;
+    }
+}
+
+@media screen and (min-width: 576px) {
+    .sm\:w-half-screen {
+        width: 50vh !important;
+    }
+}
+

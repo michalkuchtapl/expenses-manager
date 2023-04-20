@@ -7,6 +7,7 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import withUUID from "vue-uuid";
 import PrimeVue from 'primevue/config';
 import ToastService from 'primevue/toastservice';
+import Tooltip from 'primevue/tooltip';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -29,6 +30,7 @@ createInertiaApp({
                 .use(PrimeVue)
                 .use(ToastService)
                 .use(ZiggyVue, Ziggy)
+                .directive('tooltip', Tooltip)
                 .mount(el)
         );
     },

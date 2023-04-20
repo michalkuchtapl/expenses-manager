@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Enums\ExpenseCategory;
 use App\Enums\ExpensePaymentType;
+use App\Enums\ExpenseType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -46,9 +47,12 @@ class HandleInertiaRequests extends Middleware
 
         return array_merge(parent::share($request), [
             'flash_notification' => $flashNotification,
-            'expenses' => [
-                'payment_types' => ExpensePaymentType::options(),
-                'categories' => ExpenseCategory::options()
+            'enums' => [
+                'expenses' => [
+                    'payment_types' => ExpensePaymentType::options(),
+                    'categories' => ExpenseCategory::options(),
+                    'types' => ExpenseType::options(),
+                ]
             ]
         ]);
     }

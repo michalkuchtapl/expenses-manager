@@ -44,4 +44,15 @@ class IncomeController extends Controller
 
         return Inertia::location(route('dashboard'));
     }
+
+    public function update(StoreIncomeRequest $request, Income $income)
+    {
+        $income->name = $request->string('name');
+        $income->value = $request->float('value');
+        $income->save();
+
+        flash()->success('Income has been updated');
+
+        return redirect()->route('income.list');
+    }
 }

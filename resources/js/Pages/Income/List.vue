@@ -6,6 +6,8 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Card from 'primevue/card';
 import AddIncomeModal from "@/Components/Modals/AddIncomeModal.vue";
+import InputText from "primevue/inputtext";
+import InputNumber from "primevue/inputnumber";
 import {ref} from 'vue';
 
 const props = defineProps({
@@ -31,6 +33,7 @@ const props = defineProps({
 })
 
 const loading = ref(false);
+const editingRows = ref([]);
 
 const refresh = (data = null) => {
     loading.value = true;
@@ -61,7 +64,9 @@ const onSort = function (event) {
 }
 
 const onRowEditSave = function (event) {
-    console.log(event);
+    const {newData, index} = event;
+    props.incomes.data[index-1] = newData;
+    router.put(route('income.update', [newData.id]), newData);
 }
 
 </script>
@@ -77,6 +82,7 @@ const onRowEditSave = function (event) {
             </template>
             <template #content>
                 <DataTable
+                    v-model:editingRows="editingRows"
                     size=""
                     lazy
                     :loading="loading"
@@ -102,7 +108,7 @@ const onRowEditSave = function (event) {
                     </Column>
                     <Column field="value" header="Amount" sortable>
                         <template #editor="{ data, field }">
-                            <InputText v-model="data[field]" type="number" min="0.01" />
+                            <InputNumber v-model="data[field]" prefix="PLN " class="w-full" />
                         </template>
                     </Column>
                     <Column field="created_at" header="Created At" sortable></Column>

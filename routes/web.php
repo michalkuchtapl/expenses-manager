@@ -33,11 +33,13 @@ Route::middleware([
     Route::prefix('/income')->group(function () {
         Route::get('/', [IncomeController::class, 'list'])->name('income.list');
         Route::post('/', [IncomeController::class, 'store'])->name('income.store');
+        Route::put('/{income}', [IncomeController::class, 'update'])->name('income.update');
     });
 
-    Route::prefix('/expense')->group(function () {
+    Route::prefix('/expenses')->group(function () {
         Route::get('/', [ExpenseController::class, 'list'])->name('expense.list');
         Route::post('/', [ExpenseController::class, 'store'])->name('expense.store');
         Route::put('/{expense_payment}/paid', [ExpenseController::class, 'markPaid'])->name('expense.mark-paid');
+        Route::get('/payments', [ExpenseController::class, 'payments'])->name('expense.payments.list');
     });
 });

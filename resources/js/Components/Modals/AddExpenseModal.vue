@@ -24,15 +24,9 @@ const form = useForm({
     payment_type: 'credit_card',
 });
 
-const categories = computed(() => usePage().props.expenses.categories);
-const paymentTypes = computed(() => usePage().props.expenses.payment_types);
-
-const expenseTypes = [
-    {value: 'one_time', label: 'One Time'},
-    {value: 'monthly', label: 'Each Month'},
-    {value: 'selected_months', label: 'Selected Months'},
-    {value: 'yearly', label: 'Each Year'},
-];
+const categories = computed(() => usePage().props.enums.expenses.categories);
+const paymentTypes = computed(() => usePage().props.enums.expenses.payment_types);
+const expenseTypes = computed(() => usePage().props.enums.expenses.types);
 
 const months = [
     {value: '01', label: 'January'},

@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property float $value
  * @property int $paid
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int $hidden
+ * @property int $enabled
  * @property-read \App\Models\Expense $expense
  * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment newQuery()
@@ -25,7 +27,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment whereDueDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment whereEnabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment whereExpenseId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment whereHidden($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment wherePaid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ExpensePayment whereUpdatedAt($value)

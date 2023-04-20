@@ -15,4 +15,19 @@ enum ExpenseType: string
             ->map(fn (self $type) => $type->value)
             ->toArray();
     }
+
+    public static function options(): array
+    {
+        return collect(self::cases())
+            ->map(fn (self $case) => [
+                'value' => $case->value,
+                'label' => match($case) {
+                    self::ONE_TIME => "One Time",
+                    self::MONTHLY => "Monthly",
+                    self::SELECTED_MONTHS => "Selected Months",
+                    self::YEARLY => "Yearly",
+                },
+            ])
+            ->toArray();
+    }
 }

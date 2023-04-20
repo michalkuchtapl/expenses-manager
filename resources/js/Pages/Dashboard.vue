@@ -8,6 +8,7 @@ import AddIncomeModal from "@/Components/Modals/AddIncomeModal.vue";
 import AddExpenseModal from "@/Components/Modals/AddExpenseModal.vue";
 import { parseDateString, isDateStringInPast, debug } from "@/helpers";
 import { router } from '@inertiajs/vue3';
+import ExpansesSheet from "@/Components/ExpansesSheet.vue";
 
 const props = defineProps({
     totalIncome: {
@@ -115,6 +116,12 @@ const markExpenseAsPaid = function (upcomingExpense) {
                     <IncomeExpanseChart />
                 </Panel>
             </div>
+        </div>
+
+        <div class="col-12">
+            <Panel header="Expenses Sheet">
+                <ExpansesSheet />
+            </Panel>
         </div>
     </AppLayout>
 </template>

@@ -6,6 +6,7 @@ use App\Enums\ExpenseType;
 use App\Events\Expenses\ExpenseCreated;
 use App\Events\Expenses\ExpenseDeleted;
 use App\Events\Expenses\ExpenseUpdated;
+use App\Http\Requests\Expenses\ListExpensesRequest;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,7 +27,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property array|null $months
  * @property int|null $day
  * @property \Illuminate\Support\Carbon|null $start_date
- * @property string|null $end_date
+ * @property \Illuminate\Support\Carbon|null $end_date
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property string $payment_type
  * @property string $category
@@ -70,6 +71,7 @@ class Expense extends Model
         'type' => ExpenseType::class,
         'months' => 'array',
         'start_date' => 'datetime',
+        'end_date' => 'datetime',
     ];
 
     public function user()
@@ -132,5 +134,30 @@ class Expense extends Model
             ->whereYear('due_date', $year ?? Carbon::now()->year)
             ->groupBy([\DB::raw('MONTH(due_date)')])
             ->pluck('value', 'month');
+    }
+
+    public static function filters(ListExpensesRequest $request) {
+        $query = self::query();
+
+        $request->whenFilled('filters.name', fn () => $query->where('name', 'like', "%".$request->get('filters.name')."%"));
+        $request->whenFilled('filters.value.min', fn () => $query->where('value', '>=', $request->get('filters.value.min')));
+        $request->whenFilled('filters.value.max', fn () => $query->where('value', '<=', $request->get('filters.value.max')));
+        $request->whenFilled('filters.payment_type', fn () => $query->where('payment_type', $request->get('filters.payment_type')));
+        $request->whenFilled('filters.category', fn () => $query->where('category', $request->get('filters.category')));
+        $query->when(
+            $request->filled('filters.status') && $request->get('filters.status') == 'active',
+            fn($query) => $query->where('start_date', '<=', Carbon::now())->where('end_date', '>=', Carbon::now())
+        );
+        $query->when(
+            $request->filled('filters.status') && $request->get('filters.status') == 'inactive',
+            fn($query) => $query->orWhere('start_date', '>', Carbon::now())->orWhere('end_date', '<', Carbon::now())
+        );
+
+        $request->whenFilled('filters.start_date.min', fn () => $query->where('start_date', '>=', $request->date('filters.start_date.min')));
+        $request->whenFilled('filters.start_date.max', fn () => $query->where('start_date', '<=', $request->date('filters.start_date.max')));
+        $request->whenFilled('filters.end_date.min', fn () => $query->where('end_date', '>=', $request->date('filters.end_date.min')));
+        $request->whenFilled('filters.end_date.max', fn () => $query->where('end_date', '<=', $request->date('filters.end_date.max')));
+
+        return $query;
     }
 }
